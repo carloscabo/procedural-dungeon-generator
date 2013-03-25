@@ -120,6 +120,15 @@ snt.dist = function() {
   }
 };
 
+/* get random flot with interval */
+snt.getRandomFloat = function (min, max) {
+  if (min == max) {
+    return min;
+  } else {
+    return Math.random() * (max - min) + min;
+  }
+}
+
 /*
   ===============================================
   Color Management Helpers
