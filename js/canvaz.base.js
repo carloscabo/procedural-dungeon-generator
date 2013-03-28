@@ -91,12 +91,18 @@ function Canvaz (canvas_id) {
   this.animID = undefined;
   this.items = [];
 
+  // Current canvas properties
   this.canvas_id = canvas_id;
   this.$can = $(this.canvas_id);
   this.w    = this.$can.width();
   this.h    = this.$can.height();
   this.off  = this.$can.offset();
   this.ctx  = this.$can[0].getContext('2d');
+  this.frameRate = null;
+
+  // Buffers
+  this.buffers = [];
+  this.bctxs = [];
 
 } // CanvasSM
 
@@ -106,8 +112,14 @@ Canvaz.prototype.init = function () {
   this.ctx.fillStyle = 'rgba(36,36,36,1)';
   this.ctx.fillRect (0, 0, this.w, this.h);
 
-  // Party start!
-  this.animate();
+  if (this.frameRate > 0) {
+    // Use setInterval
+    this.animateSI();
+  } else {
+    // Use requestFrameAnim
+    this.animate();
+  }
+
 } // Init
 
 Canvaz.prototype.addMouseTracking = function () {
@@ -144,13 +156,29 @@ Canvaz.prototype.update = function () {
 } // Update
 
 Canvaz.prototype.animate = function() {
-  this.animID = requestAnimationFrame(this.animate.bind(this));
   this.update();
+  this.animID = requestAnimationFrame(this.animate.bind(this));
 } // animate
+
+/* Animate with setInterval */
+Canvaz.prototype.animateSI = function() {
+  /* Redefine stopAnim function */
+  this.stopAnim = function() {
+    clearInterval(this.animID);
+  };
+
+  var self = this;
+  this.animID = setInterval(function(){ self.update(); }, self.frameRate);
+} // animate
+
 
 Canvaz.prototype.stopAnim = function() {
   window.cancelAnimationFrame(this.animID);
 } // stopAnim
+
+Canvaz.prototype.setFrameRate = function(fr) {
+  this.frameRate = 1000/fr;
+} // setFrameRate
 
 Canvaz.prototype.saveCanvasToPng = function() {
 
@@ -173,6 +201,17 @@ Canvaz.prototype.saveCanvasToPng = function() {
   }
 }
 
+Canvaz.prototype.addBuffer = function () {
+
+  var tempBuffer = tempBuffer = document.createElement('canvas');
+  tempBuffer.width = this.w;
+  tempBuffer.height = this.h;
+  var tempBufferCtx = tempBuffer.getContext('2d')
+
+  // Push to global object
+  this.buffers.push(tempBuffer);
+  this.bctxs.push(tempBufferCtx);
+}
 /*
   ===============================================
   Drawing helpers

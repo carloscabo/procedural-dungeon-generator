@@ -12,10 +12,11 @@ function ItemFollowMouseType(x, y, r, color) {
 }; //item
 
 ItemFollowMouseType.prototype.update = function(mousex, mousey) {
-  //SIN DELAY
+  // NO DELAY
   //this.x = mouse.x;
   //this.y = mouse.y;
-  //CON DELAY
+
+  // WITH DELAY
   this.x += (mousex - this.x)/this.delay;
   this.y += (mousey - this.y)/this.delay;
 };
@@ -42,5 +43,3 @@ itemType.prototype.update = function () {
     this.dir_y = this.dir_y * -1;
   }
 }
-
-

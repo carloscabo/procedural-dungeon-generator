@@ -23,6 +23,8 @@ $(document).ready(function() {
   // Create canvas
   c1 = new Cvz1("#micanvas");
   c1.addMouseTracking();
+  c1.addBuffer();
+  c1.addBuffer();
   console.log(c1);
 
   // Creating object and adding them to canvas
@@ -38,6 +40,8 @@ $(document).ready(function() {
   // Create canvas
   c2 = new Cvz2("#micanvas2");
   c2.addMouseTracking();
+  c2.setFrameRate(60); // Uses framerate instead RequestFrame
+
   var ifm2 = new ItemFollowMouseType(256, 256, 12, '#FFFFFF');
   c2.items.push (ifm2);
 
@@ -45,7 +49,7 @@ $(document).ready(function() {
   c1.init();
   c2.init();
 
-  // Save canvas buttons
+  // Save canvas buttons ------------------------------------
   $('#btn-save1').click(function (e) {
     e.preventDefault();
     c1.saveCanvasToPng();
