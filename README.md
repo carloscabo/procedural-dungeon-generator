@@ -1,7 +1,7 @@
-CanvaSSS
-========
+canvaz
+======
 
-**CanvaSSS** is a **Simple Scene Starter** for quick prototyping HTML5 / Canvas sketches.
+**canvaz** is a **Simple Scene Starter** for quick prototyping HTML5 / Canvas sketches.
 
 Its my try to speed-up the HTML5 / Canvas sketching of my ideas in and OOP oriented way. Its mainly intended for personal usage and sketching purposes (avoiding to include more heavier solutions like Kinetic.js or Processing.js). Ideas or suggestions are welcome ;-D
 

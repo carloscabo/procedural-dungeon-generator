@@ -21,7 +21,7 @@ var c2;
 $(document).ready(function() {
 
   // Create canvas
-  c1 = new CSSS("#micanvas");
+  c1 = new Cvz1("#micanvas");
   c1.addMouseTracking();
   console.log(c1);
 
@@ -35,8 +35,8 @@ $(document).ready(function() {
   c1.items.push (b1);
   c1.items.push (b2);
 
-  // Cretae canvas
-  c2 = new CSSSAlt("#micanvas2");
+  // Create canvas
+  c2 = new Cvz2("#micanvas2");
   c2.addMouseTracking();
   var ifm2 = new ItemFollowMouseType(256, 256, 12, '#FFFFFF');
   c2.items.push (ifm2);

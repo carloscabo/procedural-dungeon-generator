@@ -4,14 +4,14 @@
   Inhereit from CanvaSSS
 */
 
-extendClass(CanvaSSSBase, CSSS);
+extendClass(Canvaz, Cvz1);
 
-function CSSS (canvas_id) {
-  CanvaSSSBase.call(this, canvas_id) ;
+function Cvz1 (canvas_id) {
+  Canvaz.call(this, canvas_id) ;
   // Other propierties here
 }
 
-CSSS.prototype.draw = function () {
+Cvz1.prototype.draw = function () {
   for (var i in this.items) {
     this.items[i].update(this.mouse.x, this.mouse.y);
     //this.ctx.fillStyle = 'rgba(255,0,0,1)';
@@ -24,20 +24,20 @@ CSSS.prototype.draw = function () {
 /*
   ============================================
   Canvas type2
-  Inhereit from CanvaSSS
+  Inhereit from CanvazBase
 */
 
-extendClass(CanvaSSSBase, CSSSAlt);
+extendClass(Canvaz, Cvz2);
 
-function CSSSAlt (canvas_id) {
-  CanvaSSSBase.call(this, canvas_id) ;
+function Cvz2 (canvas_id) {
+  Canvaz.call(this, canvas_id) ;
   // Other propierties here
 }
 
-/* Uses same draw loop as CSSS */
-CSSSAlt.prototype.draw = CSSS.prototype.draw;
+/* Uses same draw loop as Canvaz */
+Cvz2.prototype.draw = Cvz1.prototype.draw;
 
-CSSSAlt.prototype.clear = function () {
+Cvz2.prototype.clear = function () {
   this.ctx.fillStyle = 'rgba(128,36,36,1)';
   this.ctx.fillRect(0, 0, this.w, this.h);
 }

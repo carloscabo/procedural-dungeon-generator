@@ -3,12 +3,6 @@
   Canvas functions and objects go here
 */
 
-plot = function (x, y, r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2, true);
-  ctx.fill();
-}; //plot
-
 function ItemFollowMouseType(x, y, r, color) {
   this.x = x;
   this.y = y;

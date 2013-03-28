@@ -86,7 +86,7 @@ function extendClass(base, sub) {
   http://carloscabo.com
 */
 
-function CanvaSSSBase (canvas_id) {
+function Canvaz (canvas_id) {
 
   this.animID = undefined;
   this.items = [];
@@ -100,7 +100,7 @@ function CanvaSSSBase (canvas_id) {
 
 } // CanvasSM
 
-CanvaSSSBase.prototype.init = function () {
+Canvaz.prototype.init = function () {
 
   // Initial Canvas clearing
   this.ctx.fillStyle = 'rgba(36,36,36,1)';
@@ -110,7 +110,7 @@ CanvaSSSBase.prototype.init = function () {
   this.animate();
 } // Init
 
-CanvaSSSBase.prototype.addMouseTracking = function () {
+Canvaz.prototype.addMouseTracking = function () {
   var that = this;
 
   this.mouse = { x: 0, y: 0 };
@@ -128,31 +128,31 @@ CanvaSSSBase.prototype.addMouseTracking = function () {
   });
 } // addMouseTracking
 
-CanvaSSSBase.prototype.clear = function () {
+Canvaz.prototype.clear = function () {
   this.ctx.fillStyle = 'rgba(36,36,36,0.2)';
   this.ctx.fillRect(0, 0, this.w, this.h);
 } // Clear
 
-CanvaSSSBase.prototype.draw = function () {
+Canvaz.prototype.draw = function () {
   // Overide from outside
   // Usually inside the ready.js
 } // Draw container
 
-CanvaSSSBase.prototype.update = function () {
+Canvaz.prototype.update = function () {
   this.clear();
   this.draw();
 } // Update
 
-CanvaSSSBase.prototype.animate = function() {
+Canvaz.prototype.animate = function() {
   this.animID = requestAnimationFrame(this.animate.bind(this));
   this.update();
 } // animate
 
-CanvaSSSBase.prototype.stopAnim = function() {
+Canvaz.prototype.stopAnim = function() {
   window.cancelAnimationFrame(this.animID);
 } // stopAnim
 
-CanvaSSSBase.prototype.saveCanvasToPng = function() {
+Canvaz.prototype.saveCanvasToPng = function() {
 
   // buffer creation
   var buffer = document.createElement('canvas');
@@ -178,19 +178,19 @@ CanvaSSSBase.prototype.saveCanvasToPng = function() {
   Drawing helpers
 */
 
-CanvaSSSBase.prototype.plot = function(x, y, r) {
+Canvaz.prototype.plot = function(x, y, r) {
   this.ctx.beginPath();
   this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
   this.ctx.fill();
 } // plot
 
-CanvaSSSBase.prototype.rect = function (x, y, w, h) {
+Canvaz.prototype.rect = function (x, y, w, h) {
   this.ctx.beginPath();
   this.ctx.rect(x-(w/2), y-(h/2), w, h);
   this.ctx.stroke();
 } // rectangle
 
-CanvaSSSBase.prototype.line = function (x1, y1, x2, y2) {
+Canvaz.prototype.line = function (x1, y1, x2, y2) {
   this.ctx.beginPath();
   this.ctx.moveTo(x1,y1);
   this.ctx.lineTo(x2,y2);
