@@ -15,11 +15,11 @@
   _ref = ['webkit', 'moz', 'o', 'ms'];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     vendor = _ref[_i];
-    if (!(requestAnimationFrame != null)) {
-      requestAnimationFrame = window[vendor + "RequestAnimationFrame"];
+    if (requestAnimationFrame == null) {
+      requestAnimationFrame = window[vendor + 'RequestAnimationFrame'];
     }
   }
-  if (!(requestAnimationFrame != null)) {
+  if (requestAnimationFrame == null) {
     method = 'timer';
     lastFrame = 0;
     queue = timer = null;
@@ -46,12 +46,20 @@
     };
   }
   requestAnimationFrame(function(time) {
-    var _ref1;
-    if ((((_ref1 = window.performance) != null ? _ref1.now : void 0) != null) && time < 1e12) {
-      requestAnimationFrame.now = function() {
-        return window.performance.now();
-      };
-      requestAnimationFrame.method = 'native-highres';
+    var offset, _ref1;
+    if (time < 1e12) {
+      if (((_ref1 = window.performance) != null ? _ref1.now : void 0) != null) {
+        requestAnimationFrame.now = function() {
+          return window.performance.now();
+        };
+        requestAnimationFrame.method = 'native-highres';
+      } else {
+        offset = now() - time;
+        requestAnimationFrame.now = function() {
+          return now() - offset;
+        };
+        requestAnimationFrame.method = 'native-highres-noperf';
+      }
     } else {
       requestAnimationFrame.now = now;
     }
