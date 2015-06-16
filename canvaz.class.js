@@ -119,6 +119,10 @@ function Canvaz (canvas_id) {
   this.timer.now       = 0;
   this.timer.lastFrame = 0;
 
+  // Items
+  // Optionally you can store items in the canvas obj
+  this.items = [];
+
   // Buffers
   this.buffers = [];
   this.bctxs = [];
