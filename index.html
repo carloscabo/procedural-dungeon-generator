@@ -5,24 +5,45 @@
 <title>Canvas Circle Intersection - jsFiddle demo</title>
 
 <style type='text/css'>
-	* {
-	outline: 0;
-	padding: 0;
-	margin: 0;
-	border: 0;
+  * {
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
 
 body {
-	background:#000;
-	padding: 20px;
-	color:#fff;
-	overflow:hidden;
+  background:#000;
+  padding: 20px;
+  color:#fff;
+  overflow:hidden;
+}
+
+a {
+  color: #ccc;
+}
+
+div {
+  float: left;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+a {
+  width: 100%;
+  float: left;
+  display: block;
+  color: #ccc;
+  padding-bottom: 20px;
+}
+
+a:hover {
+  color: #fff;
 }
 
 canvas {
-	float: left;
-	margin-right: 20px;
-	background-color: #333;
+  float: left;
+  background-color: #333;
 }
 </style>
 
@@ -34,18 +55,22 @@ canvas {
 </head>
 <body>
 
-<canvas id="cnvz1" width="512" height="512">
-	Este texto se muestra para los navegadores no compatibles con canvas.<br>
-	Por favor, utiliza Firefox, Chrome, Safari u Opera.
-</canvas>
-<a href="#" id="btn-save1">Save canvas 1</a>
-<hr>
+<div>
+  <canvas id="cnvz1" width="512" height="512">
+    Este texto se muestra para los navegadores no compatibles con canvas.<br>
+    Por favor, utiliza Firefox, Chrome, Safari u Opera.
+  </canvas>
+  <a href="#" id="btn-save1">Save canvas 1</a>
+</div>
 
-<canvas id="cnvz2" width="512" height="200">
-	Este texto se muestra para los navegadores no compatibles con canvas.<br>
-	Por favor, utiliza Firefox, Chrome, Safari u Opera.
-</canvas>
-<a href="#" id="btn-save2">Save canvas 2</a>
+
+<div>
+  <canvas id="cnvz2" width="512" height="200">
+    Este texto se muestra para los navegadores no compatibles con canvas.<br>
+    Por favor, utiliza Firefox, Chrome, Safari u Opera.
+  </canvas>
+  <a href="#" id="btn-save2">Save canvas 2</a>
+</div>
 
 </body>
 </html>
