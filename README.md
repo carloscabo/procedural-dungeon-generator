@@ -15,29 +15,35 @@ usage
 
 1. Create a new `canvas` with an unique `id`
 
-    <canvas id="cnvz1" width="512" height="512"></canvas>
+```javascript
+<canvas id="cnvz1" width="512" height="512"></canvas>
+```
 
-2. Inside the `domready` create an isntace of **canvaz**
+2. Inside the `domready` create an instace of **canvaz**
 
-    $(document).ready(function() {
-      c1 = new Canvaz("#cnvz1");
-      ...
-    });
+```javascript
+$(document).ready(function() {
+  c1 = new Canvaz("#cnvz1");
+  ...
+});
+```
 
 3. Define the `draw` method that will be called in each painting loop, if you want to do something just before drawing (clear the stage for instance) define `beforeDraw()` method too...
 
-    c1.beforeDraw = function() {
-      this.ctx.fillStyle = 'rgba(128,36,36,0.25)';
-      this.ctx.fillRect(0, 0, this.w, this.h);
-    }
+```javascript
+c1.beforeDraw = function() {
+  this.ctx.fillStyle = 'rgba(128,36,36,0.25)';
+  this.ctx.fillRect(0, 0, this.w, this.h);
+}
 
-    c1.draw = function () {
-      for (var i in this.items) {
-        this.items[i].update(this.mouse.x, this.mouse.y);
-        this.ctx.fillStyle = this.items[i].color;
-        this.plot(this.items[i].x, this.items[i].y, this.items[i].r);
-      }
-    }
+c1.draw = function () {
+  for (var i in this.items) {
+    this.items[i].update(this.mouse.x, this.mouse.y);
+    this.ctx.fillStyle = this.items[i].color;
+    this.plot(this.items[i].x, this.items[i].y, this.items[i].r);
+  }
+}
+```
 
 helpers
 =======
