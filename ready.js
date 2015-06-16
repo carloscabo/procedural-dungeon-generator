@@ -21,7 +21,7 @@ var c2;
 $(document).ready(function() {
 
   // Create canvas
-  c1 = new Cvz1("#micanvas");
+  c1 = new Canvaz("#micanvas");
   c1.addMouseTracking();
   c1.addBuffer();
   c1.addBuffer();
@@ -32,7 +32,7 @@ $(document).ready(function() {
   c1.items.push (ifm1);
 
   // Bouncing balls
-  var b1 = new itemType(123, 356, 25, c1.w, c1.h, '#00FF00');
+  /*var b1 = new itemType(123, 356, 25, c1.w, c1.h, '#00FF00');
   var b2 = new itemType(256, 128, 25, c1.w, c1.h, '#0000FF');
   c1.items.push (b1);
   c1.items.push (b2);
@@ -58,6 +58,6 @@ $(document).ready(function() {
   $('#btn-save2').click(function (e) {
     e.preventDefault();
     c2.saveCanvasToPng();
-  });
+  });*/
 
 }); //Ready
