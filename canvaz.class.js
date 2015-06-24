@@ -1,9 +1,14 @@
-/*
-  =================================================
-  Milisecond precision, and using Data.now (faster)
-  by Johan Nordberg
-  http://www.makeitgo.ws/articles/animationframe/
-*/
+/**
+ * Simple HTML5 Canvas Scene Manager
+ * by Carlos Cabo 2013 http://carloscabo.com
+ * https://github.com/carloscabo/canvaz
+ */
+
+/**
+ * Milisecond precision, and using Data.now (faster)
+ * by Johan Nordberg
+ * http://www.makeitgo.ws/articles/animationframe/
+ */
 
 (function() {
   var lastFrame, method, now, queue, requestAnimationFrame, timer, vendor, _i, _len, _ref, _ref1;
@@ -71,32 +76,9 @@
   window.requestAnimationFrame = requestAnimationFrame;
 })();
 
-/*
-  ===============================================
-  Extend Class
-  by Juan Mendes
-  http://js-bits.blogspot.com.es/2010/08/javascript-inheritance-done-right.html
-*/
-
-// Setup the prototype chain the right way
-function surrogateCtor() {}
-
-function extendClass(base, sub) {
-  surrogateCtor.prototype = base.prototype;
-  sub.prototype = new surrogateCtor();
-  sub.prototype.constructor = sub;
-}
-
-/*
-  ===============================================
-  Simple HTML5 Canvas Scene Manager
-  by Carlos Cabo 2013
-  http://carloscabo.com
-*/
-
 /**
- * [Canvaz description]
- * @param {[type]} canvas_id [description]
+ * Creates a Canvaz object attached a canvas DOM element
+ * @param {[type]} canvas_id DOM id
  */
 function Canvaz (canvas_id) {
 
@@ -107,11 +89,13 @@ function Canvaz (canvas_id) {
   this.$can = $(this.canvas_id);
   this.w    = this.$can[0].width;
   this.h    = this.$can[0].height;
-  this.centerX = this.w/2;
-  this.centerY = this.h/2;
   this.off  = this.$can.offset();
   this.ctx  = this.$can[0].getContext('2d');
-  this.frameRate = null;
+  this.frameRate = null,
+  this.center = {
+    'x': this.w/2,
+    'y': this.h/2
+  };
 
   // Time vars
   this.timer = {}; // ms
@@ -135,7 +119,7 @@ function Canvaz (canvas_id) {
  */
 Canvaz.prototype.start = function() {
 
-  // Actions to be done just before starting the loop
+  // If 'beforeStart' its defined...
   if (typeof this.beforeStart === 'function') {
     this.beforeStart();
   }
@@ -165,7 +149,6 @@ Canvaz.prototype.restart = function () {
  * Add mouse trckacing to the canvas object
  */
 Canvaz.prototype.addMouseTracking = function () {
-
   var that = this;
 
   this.mouse = { x: 0, y: 0 };
@@ -182,19 +165,21 @@ Canvaz.prototype.addMouseTracking = function () {
  * @return {[type]} [description]
  */
 Canvaz.prototype.update = function () {
+  // If 'beforeDraw' is defined
   if (typeof this.beforeDraw === 'function') {
     this.beforeDraw();
   }
   this.draw();
 } // Update
 
+/* Animate with requestAnimationFrame */
 Canvaz.prototype.animate = function() {
   // Increase internal timer
   var t = new Date().getTime();
   this.timer.lastFrame = t - this.timer.initial - this.timer.now;
   this.timer.now = t - this.timer.initial;
 
-  // Update scene
+  // If 'draw' method defined thenm update scene
   if (typeof this.draw === 'function') {
     this.update();
     this.animID = requestAnimationFrame(this.animate.bind(this));
@@ -218,25 +203,48 @@ Canvaz.prototype.setFrameRate = function(fr) {
   this.frameRate = 1000/fr;
 } // setFrameRate
 
-Canvaz.prototype.saveCanvasToPng = function() {
+/**
+ * Opens canvas content into a new window.
+ * Optionally adds a watermark
+ */
+Canvaz.prototype.saveCanvasToPng = function(watermarkImageUrl) {
+
   // buffer creation
   var buffer = document.createElement('canvas');
   buffer.width = this.w;
   buffer.height = this.h;
-  var bufferctx = buffer.getContext('2d');
+  var bufferCtx = buffer.getContext('2d');
 
-  // coping canvas to buffer
-  bufferctx.drawImage(this.$can[0], 0, 0); //micanvas
+  // Copy actual canvas content into buffer
+  bufferCtx.drawImage(this.$can[0], 0, 0);
 
-  // buffer data dump
-  var data = buffer.toDataURL("image/png");
+  // No watermark
+  if(typeof watermarkImageUrl === 'undefined') {
+    // buffer data dump
+    var dataUrl = buffer.toDataURL("image/png");
+    this.saveCanvasOpenWindow(dataUrl);
+  } else {
+    // Load watermark and paste it
+    var
+      wmImg = new Image(),
+      that = this;
+    wmImg.onload = function() {
+      // Draw bottom left
+      bufferCtx.drawImage(this, 0, buffer.height - this.height);
+      var dataUrl = buffer.toDataURL("image/png");
+      that.saveCanvasOpenWindow(dataUrl);
+    }
+    wmImg.src = watermarkImageUrl;
+  }
+}
 
-  // Open confirm dialog
+// Open confirm dialog and window with image
+Canvaz.prototype.saveCanvasOpenWindow = function(dataUrl) {
   // Spanish version
-  // var confirm_text = 'Se abrirá otra ventana del navegador con el gráfico listo para descargar. Pulsa sobre él con el botón derecho y seleccione "Guardar imagen como..."\n¿Deseas continuar?';
-  var confirm_text = 'Another window/tab will open with the image ready to download. Just right click over it and select "Save image as..."\nContinue?';
-  if(confirm(confirm_text)) {
-    window.open(data);
+  // var confirmText = 'Se abrirá otra ventana del navegador con el gráfico listo para descargar. Pulsa sobre él con el botón derecho y seleccione "Guardar imagen como..."\n¿Deseas continuar?';
+  var confirmText = 'Another window/tab will open with the image ready to download. Just right click over it and select "Save image as..."\nContinue?';
+  if(confirm(confirmText)) {
+    window.open(dataUrl);
   }
 }
 
@@ -261,8 +269,8 @@ Canvaz.prototype.fullScreen = function () {
   this.$can[0].width = this.w;
   this.$can[0].height = this.h;
 
-  this.centerX = this.w/2;
-  this.centerY = this.h/2;
+  this.center.x = this.w/2;
+  this.center.y = this.h/2;
 
   var that = this;
   $(window).resize(function() {
@@ -277,6 +285,7 @@ Canvaz.prototype.fullScreen = function () {
  */
 Canvaz.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.w, this.h);
+  //this.ctx.clearRect(0, 0, this.w, this.h);
 } // Clear
 
 // --------------------------------------------------------
