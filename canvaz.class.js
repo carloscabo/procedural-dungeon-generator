@@ -264,19 +264,32 @@ Canvaz.prototype.addBuffer = function () {
  * @return {[type]} [description]
  */
 Canvaz.prototype.fullScreen = function () {
+  this.recalculateFullScreenDimensions();
+  // Restart on resize
+  var that = this;
+  this.resizeTimer = null;
+  $(window).resize(function() {
+    clearTimeout(that.resizeTimer);
+    that.resizeTimer = setTimeout(function() {
+      that.recalculateFullScreenDimensions();
+      that.restart();
+    }, 500);
+  })
+}
+Canvaz.prototype.recalculateFullScreenDimensions = function() {
   this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   this.$can[0].width = this.w;
   this.$can[0].height = this.h;
-
   this.center.x = this.w/2;
   this.center.y = this.h/2;
 
-  var that = this;
-  $(window).resize(function() {
-    that.fullScreen();
-    that.restart();
-  })
+  if(this.buffers.length > 0) {
+    for (var i = this.buffers.length - 1; i >= 0; i--) {
+      this.buffers[i].width = this.w;
+      this.buffers[i].height = this.h;
+    };
+  }
 }
 
 /**
