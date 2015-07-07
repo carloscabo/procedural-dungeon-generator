@@ -1,7 +1,9 @@
 /**
  * Simple HTML5 Canvas Scene Manager
- * by Carlos Cabo 2013 http://carloscabo.com
+ * by Carlos Cabo http://carloscabo.com
  * https://github.com/carloscabo/canvaz
+ * V0.9 SanFermin
+ * 2015/07/07
  */
 
 /**
@@ -298,7 +300,11 @@ Canvaz.prototype.recalculateFullScreenDimensions = function() {
  */
 Canvaz.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.w, this.h);
-  //this.ctx.clearRect(0, 0, this.w, this.h);
+
+  // Solid fill
+  /*this.ctx.beginPath();
+  this.ctx.rect(0, 0, this.w, this.h);
+  this.ctx.fill();*/
 } // Clear
 
 // --------------------------------------------------------
@@ -337,6 +343,7 @@ Canvaz.prototype.circle = function(x, y, r) {
   this.ctx.stroke();
 } // Circle
 
+// From itx center, instead of from top-left corner
 Canvaz.prototype.rect = function (x, y, w, h) {
   this.ctx.beginPath();
   this.ctx.rect(x-(w/2), y-(h/2), w, h);
@@ -352,3 +359,34 @@ Canvaz.prototype.line = function (x1, y1, x2, y2) {
   this.ctx.stroke();
 } // Line
 
+// Style helpers
+
+// fillStyle
+Object.defineProperty(Canvaz.prototype, 'fS', {
+  get: function() {
+    return this.ctx.fillStyle;
+  },
+  set: function(color) {
+    this.ctx.fillStyle = color;
+  }
+});
+
+// strokeStyle
+Object.defineProperty(Canvaz.prototype, 'sS', {
+  get: function() {
+    return this.ctx.strokeStyle;
+  },
+  set: function(color) {
+    this.ctx.strokeStyle = color;
+  }
+});
+
+// lineWidth
+Object.defineProperty(Canvaz.prototype, 'lW', {
+  get: function() {
+    return this.ctx.lineWidth;
+  },
+  set: function(w) {
+    this.ctx.lineWidth = w;
+  }
+});
