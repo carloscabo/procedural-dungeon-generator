@@ -75,7 +75,7 @@ cz1.plot(x, y, radius); // Draws a simple point
 
 cz1.circle(x, y, radius); // Draws circle
 
-cz1.rect = function (x, y, width, height); // Rectangle with center in x, y
+cz1.rect(x, y, width, height); // Rectangle with center in x, y
 
 cz1.line(x1, y1, x2, y2); // Simple line
 ```
