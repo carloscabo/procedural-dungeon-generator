@@ -321,6 +321,10 @@ Canvaz.prototype.beforeDraw = function () {
   // Runs just before draw();
 }
 
+Canvaz.prototype.drawOnce = function () {
+  // Draws scene once
+}
+
 Canvaz.prototype.draw = function () {
   // Draws scene
 }
