@@ -298,8 +298,12 @@ Canvaz.prototype.recalculateFullScreenDimensions = function() {
  * Clear completly the canvas surface
  * @return {[type]} [description]
  */
-Canvaz.prototype.clear = function () {
-  this.ctx.clearRect(0, 0, this.w, this.h);
+Canvaz.prototype.clear = function (x, y, w, h) {
+  if (!x) x = 0;
+  if (!y) y = 0;
+  if (!w) w = this.w;
+  if (!h) h = this.h;
+  this.ctx.clearRect(x, y, w, h);
 
   // Solid fill
   /*this.ctx.beginPath();
