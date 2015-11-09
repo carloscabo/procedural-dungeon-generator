@@ -127,7 +127,7 @@ Canvaz.prototype.start = function() {
   }
 
   // Starts internal timer
-  this.timer.initial = new Date().getTime();
+  this.timer.initial = Date.now();
   if (this.frameRate > 0) {
     // Use setInterval
     this.animateSI();
@@ -177,7 +177,7 @@ Canvaz.prototype.update = function () {
 /* Animate with requestAnimationFrame */
 Canvaz.prototype.animate = function() {
   // Increase internal timer
-  var t = new Date().getTime();
+  var t = Date.now();
   this.timer.lastFrame = t - this.timer.initial - this.timer.now;
   this.timer.now = t - this.timer.initial;
 
