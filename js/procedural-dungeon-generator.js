@@ -117,10 +117,8 @@ function spaceRooms ( rooms ) {
   for (var i = 0, len = rooms.length; i < len; i++) {
     var
       r1 = rooms[i];
-    r1.x = Math.round(r1.x);
-    r1.y = Math.round(r1.y);
     for (var j = 0; j < len; j++) {
-      if (i !== j) {
+      if (i !== j) { // Not checking againt itself
         var
           r2 = rooms[j];
 
