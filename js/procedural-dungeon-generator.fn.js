@@ -114,9 +114,34 @@ pDG.fn.draw.axis = function( canvaz_obj ) {
   canvaz_obj.fS = '#f00';
   canvaz_obj.ctx.beginPath();
 
-  canvaz_obj.ctx.rect( 0, - canvaz_obj.h, 1, canvaz_obj.h * 2);
-  canvaz_obj.ctx.rect( - canvaz_obj.w, 0, canvaz_obj.w * 2, 1);
+  canvaz_obj.ctx.rect( 0, - canvaz_obj.h, 1, canvaz_obj.h * 2 );
+  canvaz_obj.ctx.rect( - canvaz_obj.w, 0, canvaz_obj.w * 2, 1 );
   canvaz_obj.ctx.closePath();
   canvaz_obj.ctx.fill();
   // debugger;
 };
+
+pDG.fn.draw.room = function ( canvaz_obj, room, grid_size, color ) {
+  if ( typeof color === 'undefined' ) {
+    var color = 'rgba(45, 93, 180, 0.75)';
+  }
+
+  canvaz_obj.lW = '1';
+  canvaz_obj.fS = color;
+  canvaz_obj.sS = '#fff';
+
+  // canvaz_obj.rect(room.x, room.y, room.w * gV.grid, room.h * gV.grid );
+  canvaz_obj.ctx.beginPath();
+  canvaz_obj.ctx.rect( room.x, room.y, room.w * grid_size, room.h * grid_size );
+  canvaz_obj.ctx.closePath();
+  canvaz_obj.ctx.fill();
+  canvaz_obj.ctx.stroke();
+
+  canvaz_obj.fS = '#ffffff';
+  canvaz_obj.plot( room.cx, room.cy, 1.0 );
+  canvaz_obj.ctx.fill();
+
+  canvaz_obj.ctx.font = "400 12px Hack";
+  canvaz_obj.ctx.textAlign = "left";
+  canvaz_obj.ctx.fillText( room.idx, room.x + 4, room.y + 18 );
+}

@@ -17,7 +17,7 @@ var gV = {
 
   // Areas over the average by this factor
   // Define the main rooms of the dungeos
-  average_area_limit: 1.45,
+  average_area_limit: 2.8,
 
   overlapping: true
 },
@@ -91,10 +91,14 @@ $(document).ready(function() {
     spaceRooms( rooms );
 
     // Draw all rooms
+    var color = 'rgba(45, 93, 180, 0.75)';
     for (var i = 0, len = rooms.length; i < len; i++) {
       var
         room = rooms[i];
-      drawRoom( room );
+      if  ( room.area > gV.average_area * gV.average_area_limit ) {
+        color = 'rgba(180, 93, 45, 0.75)'; // Redish
+      }
+      pDG.fn.draw.room( cz1, room, gV.grid, color );
     }
 
     pDG.fn.draw.axis( cz1 );
@@ -106,46 +110,9 @@ $(document).ready(function() {
 });
 
 
-function drawRoom( room ) {
-  cz1.lW = '1';
-  cz1.fS = 'rgba(45, 93, 180, 0.75)';
-  cz1.sS = '#fff';
 
-  if  ( room.area > gV.average_area * gV.average_area_limit ) {
-    cz1.fS = 'rgba(180, 93, 45, 0.75)';
-  }
-  // cz1.rect(room.x, room.y, room.w * gV.grid, room.h * gV.grid );
-  cz1.ctx.beginPath();
-  cz1.ctx.rect( room.x, room.y, room.w * gV.grid, room.h * gV.grid );
-  cz1.ctx.closePath();
-  cz1.ctx.fill();
-  cz1.ctx.stroke();
-
-  cz1.fS = '#ffffff';
-  cz1.plot( room.cx, room.cy, 1.0 );
-  cz1.ctx.fill();
-
-  cz1.ctx.font = "400 12px Hack";
-  cz1.ctx.textAlign = "left";
-  cz1.ctx.fillText( room.idx, room.x + 4, room.y + 18);
-
-}
-
-function drawCoord() {
-  cz1.fS = '#f00';
-  cz1.ctx.beginPath();
-
-  cz1.ctx.rect( 0, - cz1.h, 1, cz1.h * 2);
-  cz1.ctx.rect( - cz1.w, 0, cz1.w * 2, 1);
-  cz1.ctx.closePath();
-  cz1.ctx.fill();
-  // debugger;
-};
 
 function spaceRooms ( rooms ) {
-  // Move to avoid overlap
-  var
-    rooms_overlapping = false;
 
   for (var i = 0, len = rooms.length; i < len; i++) {
     var
@@ -160,8 +127,6 @@ function spaceRooms ( rooms ) {
         // If rooms overlap
         if ( pDG.fn.roomsOverlap(r1, r2, gV.grid) ) {
 
-          rooms_overlapping = true;
-          // console.log( 'overlaps' );
           var
             d = pDG.fn.dist(r1.cx, r1.cy, r2.cx, r2.cy),
             dx = r2.cx - r1.cx,
