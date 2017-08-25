@@ -92,3 +92,31 @@ pDG.fn.getRandomPointInEllipse = function( cx, cy, ellipse_w, ellipse_h, grid_si
   Draw helpers... functions... whatever
   // ----------------------------------
 */
+
+pDG.fn.draw = {};
+
+
+pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
+  var
+    r = 100;
+  canvaz_obj.fS = '#aaa';
+  canvaz_obj.ctx.beginPath();
+  for (var i = -r; i < r; i++) {
+    for (var j = -r; j < r; j++) {
+      canvaz_obj.ctx.rect( i * grid_size, j * grid_size, 1, 1 );
+      canvaz_obj.ctx.closePath();
+    }
+  }
+  canvaz_obj.ctx.fill();
+};
+
+pDG.fn.draw.axis = function( canvaz_obj ) {
+  canvaz_obj.fS = '#f00';
+  canvaz_obj.ctx.beginPath();
+
+  canvaz_obj.ctx.rect( 0, - canvaz_obj.h, 1, canvaz_obj.h * 2);
+  canvaz_obj.ctx.rect( - canvaz_obj.w, 0, canvaz_obj.w * 2, 1);
+  canvaz_obj.ctx.closePath();
+  canvaz_obj.ctx.fill();
+  // debugger;
+};

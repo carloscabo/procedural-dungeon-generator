@@ -86,7 +86,7 @@ $(document).ready(function() {
 
     cz1.clear();
 
-    drawGrid();
+    pDG.fn.draw.grid( cz1, gV.grid );
 
     spaceRooms( rooms );
 
@@ -97,7 +97,7 @@ $(document).ready(function() {
       drawRoom( room );
     }
 
-    drawCoord();
+    pDG.fn.draw.axis( cz1 );
 
   };
 
@@ -130,24 +130,6 @@ function drawRoom( room ) {
   cz1.ctx.fillText( room.idx, room.x + 4, room.y + 18);
 
 }
-
-// function snapToGrid ( val, gridSize ) {
-//   return Math.round(val / gridSize) * gridSize;
-// };
-
-function drawGrid() {
-  var
-    r = 100;
-  cz1.fS = '#aaa';
-  for (var i = -r; i < r; i++) {
-    for (var j = -r; j < r; j++) {
-      cz1.ctx.beginPath();
-      cz1.ctx.rect(i * gV.grid, j * gV.grid, 1, 1);
-      cz1.ctx.closePath();
-      cz1.ctx.fill();
-    }
-  }
-};
 
 function drawCoord() {
   cz1.fS = '#f00';
