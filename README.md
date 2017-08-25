@@ -7,5 +7,8 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 
 ![ Sample ](img/sample.gif)
 
+# Requirements
+For the drawing I use a tiny JS library of myself called [Canvaz](https://github.com/carloscabo/canvaz). Its a HTML5 Canvas wrapper with some tools.
+
 # How to use
 Coming soon.
