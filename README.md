@@ -1,2 +1,4 @@
 # procedural-dungeon-generator
-Procedural Dungeon Genmeration Algorith in JS
+Procedural Dungeon Genmeration Algorithm in JS
+
+![ Smaple ](img/sample.gif)
