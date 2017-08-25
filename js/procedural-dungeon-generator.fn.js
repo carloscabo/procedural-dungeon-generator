@@ -28,7 +28,7 @@ pDG.fn.dist = function () {
   Rounds a value to a grid multiplus
 */
 pDG.fn.snapToGrid = function ( val, grid_size ) {
-  return Math.round(val / gridSize) * grid_size;
+  return Math.round(val / grid_size) * grid_size;
 };
 
 /*
@@ -55,9 +55,9 @@ pDG.fn.roomsOverlap = function ( r1, r2, grid_size ) {
     y2 = Math.min( r1_b, r2_b ); */
 
   var
-    x1 = Math.max( r1_x, r2_x ),
+    x1 = Math.max( r1.x, r2.x ),
     x2 = Math.min( r1.x + r1.w * grid_size, r2.x + r2.w * grid_size ),
-    y1 = Math.max( r1_y, r2_y ),
+    y1 = Math.max( r1.y, r2.y ),
     y2 = Math.min( r1.y + r1.h * grid_size, r2.x + r2.w * grid_size );
 
   return x1 < x2 && y1 < y2;
@@ -80,8 +80,8 @@ pDG.fn.getRandomPointInEllipse = function( cx, cy, ellipse_w, ellipse_h, grid_si
     r = u;
   }
   var
-    _x = x + ( ellipse_w * r * Math.cos(t) ),
-    _y = y + ( ellipse_h * r * Math.sin(t) );
+    _x = cx + ( ellipse_w * r * Math.cos(t) ),
+    _y = cy + ( ellipse_h * r * Math.sin(t) );
   if ( typeof grid_size !== 'undefined' ) {
     _x = pDG.fn.snapToGrid( _x, grid_size );
     _y = pDG.fn.snapToGrid( _y, grid_size );
