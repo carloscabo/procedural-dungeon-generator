@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Canvas Circle Intersection - jsFiddle demo</title>
+
+<style type='text/css'>
+  * {
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+body {
+  background:#000;
+  padding: 20px;
+  color:#fff;
+  overflow:hidden;
+}
+
+a {
+  color: #ccc;
+}
+
+div {
+  float: left;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+a {
+  width: 100%;
+  float: left;
+  display: block;
+  color: #ccc;
+  padding-bottom: 20px;
+}
+
+a:hover {
+  color: #fff;
+}
+
+canvas {
+  float: left;
+  background-color: #333;
+}
+</style>
+
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="canvaz.class.js"></script>
+<script type="text/javascript" src="ready.js"></script>
+<!-- <script type='text/javascript' src="test.js"></script> -->
+
+</head>
+<body>
+
+<div>
+  <canvas id="cnvz1" width="512" height="512">
+    Este texto se muestra para los navegadores no compatibles con canvas.<br>
+    Por favor, utiliza Firefox, Chrome, Safari u Opera.
+  </canvas>
+  <a href="#" id="btn-save1">Save canvas 1</a>
+</div>
+
+
+<div>
+  <canvas id="cnvz2" width="512" height="200">
+    Este texto se muestra para los navegadores no compatibles con canvas.<br>
+    Por favor, utiliza Firefox, Chrome, Safari u Opera.
+  </canvas>
+  <a href="#" id="btn-save2">Save canvas 2</a>
+</div>
+
+</body>
+</html>
