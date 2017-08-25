@@ -12,4 +12,11 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 For the drawing I use a tiny JS library of myself called [Canvaz](https://github.com/carloscabo/canvaz). Its a HTML5 Canvas wrapper with some tools.
 
 # How to use
+
+Start a webserver of tour choice in the root folder and watch the magic.
+
+```
+php -S 127.0.0.1:1234
+```
+
 Coming soon.
