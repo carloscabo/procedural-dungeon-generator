@@ -31,6 +31,64 @@ pDG.fn.snapToGrid = function ( val, grid_size ) {
   return Math.round(val / grid_size) * grid_size;
 };
 
+pDG.fn.spaceRooms = function ( rooms, grid_size ) {
+
+  for (var i = 0, len = rooms.length; i < len; i++) {
+    var
+      r1 = rooms[i];
+    for (var j = 0; j < len; j++) {
+      if (i === j) {
+        // Not checking againt itself
+        continue;
+      }
+
+      var
+        r2 = rooms[j];
+
+      // If rooms overlap we mus space them
+      if ( pDG.fn.roomsOverlap(r1, r2, grid_size) ) {
+
+        var
+          d = pDG.fn.dist(r1.cx, r1.cy, r2.cx, r2.cy),
+          dx = r2.cx - r1.cx,
+          dy = r2.cy - r1.cy,
+          normal = {};
+          // midpoint = {};
+
+        // If rooms have their center x, y position we get a NaN
+        // Due to a division by 0 ( distance between centers )
+        if ( d === 0 ) {
+          normal.x = 0;
+          normal.y = 0;
+        } else {
+          normal.x = dx / d;
+          normal.y = dy / d;
+        }
+        // midpoint.x = (r1.x + r2.x) / 2;
+        // midpoint.y = (r1.y + r2.y) / 2;
+
+        r2.cx += ( normal.x * grid_size * 1.0 );
+        r2.cy += ( normal.y * grid_size * 1.0 );
+        r1.cx -= ( normal.x * grid_size * 1.0 );
+        r1.cy -= ( normal.y * grid_size * 1.0 );
+
+        r2.x = pDG.fn.snapToGrid( r2.cx - r2.w / 2 * grid_size, grid_size );
+        r2.y = pDG.fn.snapToGrid( r2.cy - r2.h / 2 * grid_size, grid_size );
+        r1.x = pDG.fn.snapToGrid( r1.cx - r1.w / 2 * grid_size, grid_size );
+        r1.y = pDG.fn.snapToGrid( r1.cy - r1.h / 2 * grid_size, grid_size );
+
+        r2.cx = r2.x + ( r2.w * grid_size / 2 );
+        r2.cy = r2.y + ( r2.h * grid_size / 2 );
+        r1.cx = r1.x + ( r1.w * grid_size / 2 );
+        r1.cy = r1.y + ( r1.h * grid_size / 2 );
+
+      }
+
+    }
+  }
+}
+
+
 /*
   Returns _true_ if two room objects overlap / intersetc
   var room = {
@@ -123,7 +181,7 @@ pDG.fn.draw.axis = function( canvaz_obj ) {
 
 pDG.fn.draw.room = function ( canvaz_obj, room, grid_size, color ) {
   if ( typeof color === 'undefined' ) {
-    var color = 'rgba(45, 93, 180, 0.75)';
+    var color = 'rgba(45, 93, 180, 0.75)'; // Bluish
   }
 
   canvaz_obj.lW = '1';
@@ -141,7 +199,7 @@ pDG.fn.draw.room = function ( canvaz_obj, room, grid_size, color ) {
   canvaz_obj.plot( room.cx, room.cy, 1.0 );
   canvaz_obj.ctx.fill();
 
-  canvaz_obj.ctx.font = "400 12px Hack";
+  canvaz_obj.ctx.font = "400 10px Hack";
   canvaz_obj.ctx.textAlign = "left";
-  canvaz_obj.ctx.fillText( room.idx, room.x + 4, room.y + 18 );
+  canvaz_obj.ctx.fillText( room.idx, room.x + 4, room.y + 15 );
 }

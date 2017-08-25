@@ -8,7 +8,7 @@ var gV = {
   max_room_h: 16,
   min_room_h: 2,
 
-  grid: 10, // Pixels
+  grid: 8, // Pixels
 
   x: 0,
   y: 0,
@@ -17,9 +17,7 @@ var gV = {
 
   // Areas over the average by this factor
   // Define the main rooms of the dungeos
-  average_area_factor: 1.35,
-
-  overlapping: true
+  average_area_factor: 1.35
 },
 rooms = [],
 cz1;
@@ -49,7 +47,7 @@ $(document).ready(function() {
     for (var i = 0; i < gV.room_number; i++) {
       var
         // p1 = getRandomPointInEllipse (0, 0, gV.radius / 2, gV.radius / 2);
-        p1 = pDG.fn.getRandomPointInEllipse(0, 0, 64, 64, gV.grid),
+        p1 = pDG.fn.getRandomPointInEllipse(0, 0, 32, 32, gV.grid),
         room = {
           x: p1[0],
           y: p1[1],
@@ -86,7 +84,7 @@ $(document).ready(function() {
 
     pDG.fn.draw.grid( cz1, gV.grid );
 
-    spaceRooms( rooms );
+    pDG.fn.spaceRooms( rooms, gV.grid );
 
     // Draw all rooms
     for (var i = 0, len = rooms.length; i < len; i++) {
@@ -110,55 +108,6 @@ $(document).ready(function() {
 
 
 
-function spaceRooms ( rooms ) {
 
-  for (var i = 0, len = rooms.length; i < len; i++) {
-    var
-      r1 = rooms[i];
-    for (var j = 0; j < len; j++) {
-      if (i !== j) { // Not checking againt itself
-        var
-          r2 = rooms[j];
-
-        // If rooms overlap
-        if ( pDG.fn.roomsOverlap(r1, r2, gV.grid) ) {
-
-          var
-            d = pDG.fn.dist(r1.cx, r1.cy, r2.cx, r2.cy),
-            dx = r2.cx - r1.cx,
-            dy = r2.cy - r1.cy,
-            normal = {},
-            midpoint = {};
-
-          if ( d === 0 ) {
-            normal.x = 0;
-            normal.y = 0;
-          } else {
-            normal.x = dx / d;
-            normal.y = dy / d;
-          }
-          midpoint.x = (r1.x + r2.x) / 2;
-          midpoint.y = (r1.y + r2.y) / 2;
-
-          r2.cx += ( normal.x * gV.grid * 1.0 );
-          r2.cy += ( normal.y * gV.grid * 1.0 );
-          r1.cx -= ( normal.x * gV.grid * 1.0 );
-          r1.cy -= ( normal.y * gV.grid * 1.0 );
-
-          r2.x = pDG.fn.snapToGrid( r2.cx - r2.w / 2 * gV.grid, gV.grid );
-          r2.y = pDG.fn.snapToGrid( r2.cy - r2.h / 2 * gV.grid, gV.grid );
-          r1.x = pDG.fn.snapToGrid( r1.cx - r1.w / 2 * gV.grid, gV.grid );
-          r1.y = pDG.fn.snapToGrid( r1.cy - r1.h / 2 * gV.grid, gV.grid );
-
-          r2.cx = r2.x + ( r2.w * gV.grid / 2 );
-          r2.cy = r2.y + ( r2.h * gV.grid / 2 );
-          r1.cx = r1.x + ( r1.w * gV.grid / 2 );
-          r1.cy = r1.y + ( r1.h * gV.grid / 2 );
-
-        }
-      }
-    }
-  }
-}
 
 
