@@ -31,6 +31,66 @@ pDG.fn.snapToGrid = function ( val, grid_size ) {
   return Math.round(val / grid_size) * grid_size;
 };
 
+/**
+ * Returns array of rooms
+ */
+pDG.fn.createRooms = function ( room_number, grid_size ) {
+  var
+    // Defaults
+    max_room_w = 16,
+    min_room_w = 2,
+    max_room_h = 16,
+    min_room_h = 2,
+
+    // Resulting room array
+    rooms = [];
+
+  for (var i = 0; i < room_number; i++) {
+    var
+      p1 = pDG.fn.getRandomPointInEllipse(0, 0, 32, 32, grid_size),
+      room = {
+        x: p1[0],
+        y: p1[1],
+        w: min_room_w + Math.round( Math.random() * ( max_room_w - min_room_w ) ),
+        h: min_room_h + Math.round( Math.random() * ( max_room_h - min_room_h ) ),
+        id: Math.random().toString(36).substr(2, 8),
+        idx: i
+      };
+
+    // Compensate to the center
+    room.x -= ( room.w * grid_size / 2 );
+    room.y -= ( room.h * grid_size / 2 );
+
+    // Snap to grid
+    room.x = pDG.fn.snapToGrid( room.x, grid_size );
+    room.y = pDG.fn.snapToGrid( room.y, grid_size );
+
+    // Recalculate center
+    room.cx = room.x + ( room.w / 2 * grid_size );
+    room.cy = room.y + ( room.h / 2 * grid_size );
+
+    // Calculate area
+    room.area = room.w * room.h;
+    rooms.push( room );
+  }
+  return rooms;
+}
+
+
+pDG.fn.getAverageArea = function ( rooms ) {
+  var
+    average_area = 0;
+    len = rooms.length;
+  for (var i = 0; i < len; i++) {
+    average_area += rooms[i].area;
+  }
+  return average_area / len;
+}
+
+
+/*
+  Loops over the rooms spacing them to th grid
+*/
 pDG.fn.spaceRooms = function ( rooms, grid_size ) {
 
   for (var i = 0, len = rooms.length; i < len; i++) {
@@ -83,7 +143,6 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
         r1.cy = r1.y + ( r1.h * grid_size / 2 );
 
       }
-
     }
   }
 }
@@ -168,6 +227,7 @@ pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
   canvaz_obj.ctx.fill();
 };
 
+
 pDG.fn.draw.axis = function( canvaz_obj ) {
   canvaz_obj.fS = '#f00';
   canvaz_obj.ctx.beginPath();
@@ -179,6 +239,9 @@ pDG.fn.draw.axis = function( canvaz_obj ) {
   // debugger;
 };
 
+/*
+  Draws the room
+*/
 pDG.fn.draw.room = function ( canvaz_obj, room, grid_size, color ) {
   if ( typeof color === 'undefined' ) {
     var color = 'rgba(45, 93, 180, 0.75)'; // Bluish
@@ -202,4 +265,17 @@ pDG.fn.draw.room = function ( canvaz_obj, room, grid_size, color ) {
   canvaz_obj.ctx.font = "400 10px Hack";
   canvaz_obj.ctx.textAlign = "left";
   canvaz_obj.ctx.fillText( room.idx, room.x + 4, room.y + 15 );
+}
+
+
+pDG.fn.draw.allRooms = function ( canvaz_obj, rooms, grid_size, average_area, average_area_factor ) {
+  for (var i = 0, len = rooms.length; i < len; i++) {
+    var
+      room = rooms[i],
+      color = 'rgba(45, 93, 180, 0.75)';
+    if ( room.area > average_area * average_area_factor ) {
+      color = 'rgba(180, 93, 45, 0.75)'; // Redish
+    }
+    pDG.fn.draw.room( canvaz_obj, room, grid_size, color );
+  }
 }
