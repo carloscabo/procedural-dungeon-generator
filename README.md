@@ -5,6 +5,8 @@ Based in the Gamsustra article: [Procedural Dungeon Generation Algorithm](http:/
 
 All the bad practices / bugs / and missconceptions are by myself, sorry in advance ;)
 
+**DISCLAIMER:** This is a **WIP** project, some parts may be buggy, use with cuation.
+
 ![ Sample ](img/sample.gif)
 
 # Requirements
