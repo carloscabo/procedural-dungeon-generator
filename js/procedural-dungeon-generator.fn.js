@@ -92,7 +92,8 @@ pDG.fn.getAverageArea = function ( rooms ) {
   Loops over the rooms spacing them to th grid
 */
 pDG.fn.spaceRooms = function ( rooms, grid_size ) {
-
+  var
+    rooms_overlap = false;
   for (var i = 0, len = rooms.length; i < len; i++) {
     var
       r1 = rooms[i];
@@ -107,6 +108,8 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
 
       // If rooms overlap we mus space them
       if ( pDG.fn.roomsOverlap(r1, r2, grid_size) ) {
+
+        rooms_overlap = true;
 
         var
           d = pDG.fn.dist(r1.cx, r1.cy, r2.cx, r2.cy),
@@ -127,24 +130,25 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
         // midpoint.x = (r1.x + r2.x) / 2;
         // midpoint.y = (r1.y + r2.y) / 2;
 
-        r2.cx += ( normal.x * grid_size * 1.0 );
-        r2.cy += ( normal.y * grid_size * 1.0 );
-        r1.cx -= ( normal.x * grid_size * 1.0 );
-        r1.cy -= ( normal.y * grid_size * 1.0 );
+        r1.cx -= ( normal.x * grid_size ); // * 1.0
+        r1.cy -= ( normal.y * grid_size ); // * 1.0
+        r2.cx += ( normal.x * grid_size ); // * 1.0
+        r2.cy += ( normal.y * grid_size ); // * 1.0
 
-        r2.x = pDG.fn.snapToGrid( r2.cx - r2.w / 2 * grid_size, grid_size );
-        r2.y = pDG.fn.snapToGrid( r2.cy - r2.h / 2 * grid_size, grid_size );
         r1.x = pDG.fn.snapToGrid( r1.cx - r1.w / 2 * grid_size, grid_size );
         r1.y = pDG.fn.snapToGrid( r1.cy - r1.h / 2 * grid_size, grid_size );
+        r2.x = pDG.fn.snapToGrid( r2.cx - r2.w / 2 * grid_size, grid_size );
+        r2.y = pDG.fn.snapToGrid( r2.cy - r2.h / 2 * grid_size, grid_size );
 
-        r2.cx = r2.x + ( r2.w * grid_size / 2 );
-        r2.cy = r2.y + ( r2.h * grid_size / 2 );
         r1.cx = r1.x + ( r1.w * grid_size / 2 );
         r1.cy = r1.y + ( r1.h * grid_size / 2 );
+        r2.cx = r2.x + ( r2.w * grid_size / 2 );
+        r2.cy = r2.y + ( r2.h * grid_size / 2 );
 
       }
     }
   }
+  return rooms_overlap;
 }
 
 

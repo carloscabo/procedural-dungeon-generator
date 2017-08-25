@@ -56,7 +56,8 @@ $(document).ready(function() {
 
     pDG.fn.draw.grid( cz1, gV.grid );
 
-    pDG.fn.spaceRooms( rooms, gV.grid );
+    var overlapping = pDG.fn.spaceRooms( rooms, gV.grid );
+    if ( overlapping ) console.log( 'overlapping!' );
 
     pDG.fn.draw.allRooms(
       cz1,
