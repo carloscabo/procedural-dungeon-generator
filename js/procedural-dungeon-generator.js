@@ -2,7 +2,7 @@
 var gV = {
   radius: 512/ 2,
 
-  room_number: 50,
+  room_number: 60,
   max_room_w: 16,
   min_room_w: 2,
   max_room_h: 16,
@@ -17,7 +17,7 @@ var gV = {
 
   // Areas over the average by this factor
   // Define the main rooms of the dungeos
-  average_area_limit: 2.8,
+  average_area_factor: 1.35,
 
   overlapping: true
 },
@@ -51,12 +51,12 @@ $(document).ready(function() {
         // p1 = getRandomPointInEllipse (0, 0, gV.radius / 2, gV.radius / 2);
         p1 = pDG.fn.getRandomPointInEllipse(0, 0, 64, 64, gV.grid),
         room = {
-          'x': p1[0],
-          'y': p1[1],
-          'w': gV.min_room_w + Math.round(Math.random() * (gV.max_room_w - gV.min_room_w)),
-          'h': gV.min_room_h + Math.round(Math.random() * (gV.max_room_h - gV.min_room_h)),
-          'id': Math.random().toString(36).substr(2, 8),
-          'idx': i
+          x: p1[0],
+          y: p1[1],
+          w: gV.min_room_w + Math.round(Math.random() * (gV.max_room_w - gV.min_room_w)),
+          h: gV.min_room_h + Math.round(Math.random() * (gV.max_room_h - gV.min_room_h)),
+          id: Math.random().toString(36).substr(2, 8),
+          idx: i
         };
 
       room.x -= ( room.w );
@@ -71,7 +71,7 @@ $(document).ready(function() {
     }
 
     // Not iot realli the average
-    gV.average_area = gV.average_area / gV.room_number;
+    gV.average_area /= gV.room_number;
     console.log( rooms );
   };
 
@@ -79,23 +79,21 @@ $(document).ready(function() {
   // ----------------------------------
   // ----------------------------------
   cz1.beforeDraw = function() {
-    // cz1.clear();
+    cz1.clear();
   };
 
   cz1.draw = function() {
-
-    cz1.clear();
 
     pDG.fn.draw.grid( cz1, gV.grid );
 
     spaceRooms( rooms );
 
     // Draw all rooms
-    var color = 'rgba(45, 93, 180, 0.75)';
     for (var i = 0, len = rooms.length; i < len; i++) {
       var
-        room = rooms[i];
-      if  ( room.area > gV.average_area * gV.average_area_limit ) {
+        room = rooms[i],
+        color = 'rgba(45, 93, 180, 0.75)';
+      if ( room.area > gV.average_area * gV.average_area_factor ) {
         color = 'rgba(180, 93, 45, 0.75)'; // Redish
       }
       pDG.fn.draw.room( cz1, room, gV.grid, color );
