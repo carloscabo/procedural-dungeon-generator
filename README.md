@@ -11,6 +11,8 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 # Requirements
 For the drawing I use a tiny JS library of myself called [Canvaz](https://github.com/carloscabo/canvaz). Its a HTML5 Canvas wrapper with some tools.
 
+[Fast Delauny Triangulation](https://github.com/ironwallaby/delaunay) by [ironwallaby](https://github.com/ironwallaby).
+
 # How to use
 
 Start a webserver of tour choice in the root folder and watch the magic.

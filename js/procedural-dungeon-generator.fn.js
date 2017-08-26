@@ -107,7 +107,7 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
         r2 = rooms[j];
 
       // If rooms overlap we mus space them
-      if ( pDG.fn.roomsOverlap(r1, r2, grid_size) ) {
+      if ( pDG.fn.roomsAreOverlapping(r1, r2, grid_size) ) {
 
         rooms_overlap = true;
 
@@ -158,7 +158,7 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
     x: ..., y: ..., w: ..., h: ..., id: ..., idx: ...
   };
 */
-pDG.fn.roomsOverlap = function ( r1, r2, grid_size ) {
+pDG.fn.roomsAreOverlapping = function ( r1, r2, grid_size ) {
   var
   r2_l = r2.x,
   r2_r = r2.x + r2.w * grid_size,
@@ -181,6 +181,28 @@ pDG.fn.roomsOverlap = function ( r1, r2, grid_size ) {
   r2_t > r1_b ||
   r2_b <= r1_t); */
 }
+
+/*
+  Returns _true_ if two rooms are contiguous
+  var room = {
+    x: ..., y: ..., w: ..., h: ..., id: ..., idx: ...
+  };
+*/
+pDG.fn.roomsAreContiguous = function ( r1, r2, grid_size ) {
+}
+
+/**
+ * Return an array with centers of the rooms in [ x, y ] pairs
+ * result = [ [ x1, y1 ], [ x2, y2 ], [ x3, y3 ] ... ]
+ */
+pDG.fn.getCenters = function ( rooms ) {
+  var centers = [];
+  for (var i = 0, len = rooms.length; i < len; i++) {
+    centers.push( [ rooms[i].cx, rooms[i].cy ] );
+  }
+  return centers;
+}
+
 
 /*
   Get a random point inside an ellipse with center cx, cy, and w  / h
@@ -215,6 +237,21 @@ pDG.fn.getRandomPointInEllipse = function( cx, cy, ellipse_w, ellipse_h, grid_si
 */
 
 pDG.fn.draw = {};
+
+
+pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
+  var
+    r = 100;
+  canvaz_obj.fS = '#aaa';
+  canvaz_obj.ctx.beginPath();
+  for (var i = -r; i < r; i++) {
+    for (var j = -r; j < r; j++) {
+      canvaz_obj.ctx.rect( i * grid_size, j * grid_size, 1, 1 );
+      canvaz_obj.ctx.closePath();
+    }
+  }
+  canvaz_obj.ctx.fill();
+};
 
 
 pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
@@ -281,5 +318,29 @@ pDG.fn.draw.allRooms = function ( canvaz_obj, rooms, grid_size, average_area, av
       color = 'rgba(180, 93, 45, 0.75)'; // Redish
     }
     pDG.fn.draw.room( canvaz_obj, room, grid_size, color );
+  }
+}
+
+/**
+ * Draws delauny triangles
+ */
+pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
+  canvaz_obj.sS = '#0ff';
+  canvaz_obj.lW = '1';
+
+  for( i = triangles.length; i; ) {
+    canvaz_obj.ctx.beginPath();
+    --i;
+    var r1 = rooms[ triangles[ i ] ];
+    canvaz_obj.ctx.moveTo( r1.cx, r1.cy );
+    --i;
+    var r2 = rooms[ triangles[ i ] ];
+    canvaz_obj.ctx.lineTo( r2.cx, r2.cy );
+    --i;
+    var r3 = rooms[ triangles[ i ] ];
+    canvaz_obj.ctx.lineTo( r3.cx, r3.cy );
+
+    canvaz_obj.ctx.closePath();
+    canvaz_obj.ctx.stroke();
   }
 }

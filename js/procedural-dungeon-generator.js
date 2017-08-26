@@ -16,6 +16,8 @@ var gV = {
   average_area_factor: 1.35
 },
 rooms = [],
+selected_rooms = [], // Area over average, main nodes of the dungeon
+selected_rooms_centers = [],
 cz1;
 
 $(document).ready(function() {
@@ -43,6 +45,13 @@ $(document).ready(function() {
     console.log( rooms );
 
     gV.average_area = pDG.fn.getAverageArea( rooms );
+
+    for (var i = 0, len = rooms.length; i < len; i++) {
+      var room = rooms[i];
+      if ( room.area > gV.average_area * gV.average_area_factor ) {
+        selected_rooms.push( room );
+      }
+    }
   };
 
   // ----------------------------------
@@ -52,12 +61,11 @@ $(document).ready(function() {
     cz1.clear();
   };
 
+
+  var overlapping = true;
   cz1.draw = function() {
 
     pDG.fn.draw.grid( cz1, gV.grid );
-
-    var overlapping = pDG.fn.spaceRooms( rooms, gV.grid );
-    if ( overlapping ) console.log( 'overlapping!' );
 
     pDG.fn.draw.allRooms(
       cz1,
@@ -66,6 +74,16 @@ $(document).ready(function() {
       gV.average_area,
       gV.average_area_factor
     );
+
+    if ( overlapping ) {
+      overlapping = pDG.fn.spaceRooms( rooms, gV.grid );
+      console.log( 'overlapping!' );
+    } else {
+      var triangles = Delaunay.triangulate( pDG.fn.getCenters( selected_rooms ) );
+      // console.log( triangles );
+      pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
+      // debugger;
+    }
 
     pDG.fn.draw.axis( cz1 );
 
