@@ -6,7 +6,7 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 
 **DISCLAIMER:** This is a **WIP** project, some parts may be buggy, use with cuation.
 
-![ Sample ](img/sample.gif)
+![ Sample ](img/sample2.gif)
 
 # Requirements
 For the drawing I use a tiny JS library of myself called [Canvaz](https://github.com/carloscabo/canvaz). Its a HTML5 Canvas wrapper with some tools.
