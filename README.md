@@ -4,7 +4,7 @@ Based in the Gamsustra article: [Procedural Dungeon Generation Algorithm](http:/
 
 All the bad practices / bugs / and missconceptions are by myself, sorry in advance ;)
 
-**DISCLAIMER:** This is a **WIP** project, some parts may be buggy, use with cuation.
+**DISCLAIMER:** This is a **WIP** project, some parts may be buggy, use with caution.
 
 ![ Sample ](img/sample2.gif)
 
@@ -21,4 +21,4 @@ Start a webserver of tour choice in the root folder and watch the magic.
 php -S 127.0.0.1:1234
 ```
 
-Coming soon.
+More info and samples coming soon.
