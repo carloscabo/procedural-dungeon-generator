@@ -8,10 +8,13 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 
 ![ Sample ](img/sample2.gif)
 
-# Requirements
+# Requirements / third party tools and libs used
+
 For the drawing I use a tiny JS library of myself called [Canvaz](https://github.com/carloscabo/canvaz). Its a HTML5 Canvas wrapper with some tools.
 
 [Fast Delauny Triangulation](https://github.com/ironwallaby/delaunay) by [ironwallaby](https://github.com/ironwallaby).
+
+[Implementation of Kruskal's algorithm to find the minimum spanning tree of a graph](https://github.com/abetusk/kruskal.js) by [abetusk](https://github.com/abetusk).
 
 # How to use
 
