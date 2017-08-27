@@ -230,6 +230,24 @@ pDG.fn.getRandomPointInEllipse = function( cx, cy, ellipse_w, ellipse_h, grid_si
   return [ _x, _y ];
 }
 
+
+pDG.fn.getEdgesFromTriangles = function( triangles ) {
+  var edges = [];
+  for( i = triangles.length; i; ) {
+    --i;
+    var c = i;
+    --i;
+    var b = i;
+    --i;
+    var a = i;
+
+    edges.push( [ a, b ] );
+    edges.push( [ b, c ] );
+    edges.push( [ c, a ] );
+  }
+  return edges;
+};
+
 /*
   // ----------------------------------
   Draw helpers... functions... whatever
@@ -326,7 +344,7 @@ pDG.fn.draw.allRooms = function ( canvaz_obj, rooms, grid_size, average_area, av
  */
 pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
   canvaz_obj.sS = '#0ff';
-  canvaz_obj.lW = '1';
+  canvaz_obj.lW = '0.5';
 
   for( i = triangles.length; i; ) {
     canvaz_obj.ctx.beginPath();
@@ -340,6 +358,28 @@ pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
     var r3 = rooms[ triangles[ i ] ];
     canvaz_obj.ctx.lineTo( r3.cx, r3.cy );
 
+    canvaz_obj.ctx.closePath();
+    canvaz_obj.ctx.stroke();
+  }
+}
+
+
+/**
+ * Draws delauny triangles
+ */
+pDG.fn.draw.edges = function ( canvaz_obj, edges, vertices ) {
+  canvaz_obj.sS = '#0ff';
+  canvaz_obj.lW = '4';
+
+  for (var i = 0, len = edges.length; i < len; i++) {
+    debugger;
+    var
+      edge = edges[i],
+      v1 = vertices[ edge[ 0 ] ],
+      v2 = vertices[ edge[ 1 ] ];
+    canvaz_obj.ctx.beginPath();
+    canvaz_obj.ctx.moveTo( v1[0], v1[1] );
+    canvaz_obj.ctx.lineTo( v2[0], v2[1] );
     canvaz_obj.ctx.closePath();
     canvaz_obj.ctx.stroke();
   }
