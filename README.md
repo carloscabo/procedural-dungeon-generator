@@ -6,7 +6,7 @@ All the bad practices / bugs / and missconceptions are by myself, sorry in advan
 
 **DISCLAIMER:** This is a **WIP** project, some parts may be buggy, use with caution.
 
-![ Sample ](img/sample2.gif)
+![ Sample ](img/sample3.gif)
 
 # Requirements / third party tools and libs used
 
