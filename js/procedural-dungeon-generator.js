@@ -27,7 +27,7 @@ $(document).ready(function() {
 
   // Clear canvas
   cz1.clear = function() {
-    this.fS = '#242424';
+    this.fS = '#0c3e54';
     this.ctx.beginPath();
     this.ctx.rect(- cz1.w / 2, - cz1.h / 2, cz1.w, cz1.h);
     this.ctx.fill();
@@ -42,11 +42,13 @@ $(document).ready(function() {
     cz1.ctx.translate(cz1.w / 2, cz1.h / 2);
 
     rooms = pDG.fn.createRooms( gV.room_number, gV.grid );
-    console.log( 'ALL ROOMS:' )
-    console.log( rooms );
+    // console.log( 'ALL ROOMS:' )
+    // console.log( rooms );
 
+    // Caculate the average area of all rooms
     gV.average_area = pDG.fn.getAverageArea( rooms );
 
+    // Create a seconds set of rooms including onthe those with an area over the average.
     for (var i = 0, len = rooms.length; i < len; i++) {
       var room = rooms[i];
       if ( room.area > gV.average_area * gV.average_area_factor ) {
@@ -85,19 +87,21 @@ $(document).ready(function() {
         triangles = Delaunay.triangulate( centers ),
         edges = pDG.fn.getEdgesFromTriangles( triangles );
 
-      // console.log( triangles );
       // console.log( centers );
+      // console.log( triangles );
       // console.log( triangles );
       // console.log( edges );
 
-      var min_span_tree = Kruskal.kruskal( centers, edges, pDG.fn.dist );
-      console.log( min_span_tree );
 
       pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
-      // pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
-      pDG.fn.draw.edges( cz1, min_span_tree, centers );
 
-      debugger;
+      // pDG.fn.draw.edges( cz1, edges, selected_rooms );
+
+      var min_span_tree = Kruskal.kruskal( centers, edges, pDG.fn.dist );
+      pDG.fn.draw.edges( cz1, min_span_tree, selected_rooms );
+      console.log( min_span_tree );
+      // debugger;
+
     }
 
     pDG.fn.draw.axis( cz1 );

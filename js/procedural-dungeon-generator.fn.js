@@ -235,11 +235,11 @@ pDG.fn.getEdgesFromTriangles = function( triangles ) {
   var edges = [];
   for( i = triangles.length; i; ) {
     --i;
-    var c = i;
+    var c = triangles[i];
     --i;
-    var b = i;
+    var b = triangles[i];
     --i;
-    var a = i;
+    var a = triangles[i];
 
     edges.push( [ a, b ] );
     edges.push( [ b, c ] );
@@ -260,22 +260,7 @@ pDG.fn.draw = {};
 pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
   var
     r = 100;
-  canvaz_obj.fS = '#aaa';
-  canvaz_obj.ctx.beginPath();
-  for (var i = -r; i < r; i++) {
-    for (var j = -r; j < r; j++) {
-      canvaz_obj.ctx.rect( i * grid_size, j * grid_size, 1, 1 );
-      canvaz_obj.ctx.closePath();
-    }
-  }
-  canvaz_obj.ctx.fill();
-};
-
-
-pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
-  var
-    r = 100;
-  canvaz_obj.fS = '#aaa';
+  canvaz_obj.fS = 'rgba(255,255,255,0.5)';
   canvaz_obj.ctx.beginPath();
   for (var i = -r; i < r; i++) {
     for (var j = -r; j < r; j++) {
@@ -288,7 +273,7 @@ pDG.fn.draw.grid = function ( canvaz_obj, grid_size ) {
 
 
 pDG.fn.draw.axis = function( canvaz_obj ) {
-  canvaz_obj.fS = '#f00';
+  canvaz_obj.fS = 'rgba(248,80,128,0.5)';
   canvaz_obj.ctx.beginPath();
 
   canvaz_obj.ctx.rect( 0, - canvaz_obj.h, 1, canvaz_obj.h * 2 );
@@ -331,9 +316,9 @@ pDG.fn.draw.allRooms = function ( canvaz_obj, rooms, grid_size, average_area, av
   for (var i = 0, len = rooms.length; i < len; i++) {
     var
       room = rooms[i],
-      color = 'rgba(45, 93, 180, 0.75)';
+      color = 'rgba(45, 93, 180, 0.25)';
     if ( room.area > average_area * average_area_factor ) {
-      color = 'rgba(180, 93, 45, 0.75)'; // Redish
+      color = 'rgba(242,144,126,0.75)'; // Redish
     }
     pDG.fn.draw.room( canvaz_obj, room, grid_size, color );
   }
@@ -343,7 +328,7 @@ pDG.fn.draw.allRooms = function ( canvaz_obj, rooms, grid_size, average_area, av
  * Draws delauny triangles
  */
 pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
-  canvaz_obj.sS = '#0ff';
+  canvaz_obj.sS = 'rgba(255,255,0,0.5)';
   canvaz_obj.lW = '0.5';
 
   for( i = triangles.length; i; ) {
@@ -367,20 +352,19 @@ pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
 /**
  * Draws delauny triangles
  */
-pDG.fn.draw.edges = function ( canvaz_obj, edges, vertices ) {
-  canvaz_obj.sS = '#0ff';
+pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms ) {
+  canvaz_obj.sS = '#ff0';
   canvaz_obj.lW = '4';
 
+  canvaz_obj.ctx.beginPath();
   for (var i = 0, len = edges.length; i < len; i++) {
-    debugger;
     var
       edge = edges[i],
-      v1 = vertices[ edge[ 0 ] ],
-      v2 = vertices[ edge[ 1 ] ];
-    canvaz_obj.ctx.beginPath();
-    canvaz_obj.ctx.moveTo( v1[0], v1[1] );
-    canvaz_obj.ctx.lineTo( v2[0], v2[1] );
-    canvaz_obj.ctx.closePath();
-    canvaz_obj.ctx.stroke();
+      r1 = rooms[ edge[0] ],
+      r2 = rooms[ edge[1] ];
+    canvaz_obj.ctx.moveTo( r1.cx, r1.cy );
+    canvaz_obj.ctx.lineTo( r2.cx, r2.cy );
   }
+  canvaz_obj.ctx.closePath();
+  canvaz_obj.ctx.stroke();
 }
