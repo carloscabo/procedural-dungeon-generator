@@ -37,9 +37,9 @@ pDG.fn.snapToGrid = function ( val, grid_size ) {
 pDG.fn.createRooms = function ( room_number, grid_size ) {
   var
     // Defaults
-    max_room_w = 16,
+    max_room_w = 11,
     min_room_w = 2,
-    max_room_h = 16,
+    max_room_h = 11,
     min_room_h = 2,
 
     // Resulting room array
@@ -354,7 +354,7 @@ pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
  */
 pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms ) {
   canvaz_obj.sS = '#ff0';
-  canvaz_obj.lW = '4';
+  canvaz_obj.lW = '2';
 
   canvaz_obj.ctx.beginPath();
   for (var i = 0, len = edges.length; i < len; i++) {

@@ -2,9 +2,9 @@
 var gV = {
   radius: 512/ 2,
 
-  room_number: 60,
+  room_number: 100,
 
-  grid: 8, // Pixels
+  grid: 10, // Pixels
 
   x: 0,
   y: 0,
@@ -85,23 +85,21 @@ $(document).ready(function() {
       var
         centers = pDG.fn.getCenters( selected_rooms ),
         triangles = Delaunay.triangulate( centers ),
-        edges = pDG.fn.getEdgesFromTriangles( triangles );
+        edges = pDG.fn.getEdgesFromTriangles( triangles ),
+        min_span_tree = Kruskal.kruskal( centers, edges, pDG.fn.dist );
 
-      // console.log( centers );
-      // console.log( triangles );
-      // console.log( triangles );
-      // console.log( edges );
+        // Draw
+        pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
+        // pDG.fn.draw.edges( cz1, edges, selected_rooms );
+        pDG.fn.draw.edges( cz1, min_span_tree, selected_rooms );
 
-
-      pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
-
-      // pDG.fn.draw.edges( cz1, edges, selected_rooms );
-
-      var min_span_tree = Kruskal.kruskal( centers, edges, pDG.fn.dist );
-      pDG.fn.draw.edges( cz1, min_span_tree, selected_rooms );
-      console.log( min_span_tree );
-      // debugger;
-
+        // Log / debug
+        // console.log( centers );
+        // console.log( triangles );
+        // console.log( triangles );
+        // console.log( edges );
+        // console.log( min_span_tree );
+        // debugger;
     }
 
     pDG.fn.draw.axis( cz1 );
