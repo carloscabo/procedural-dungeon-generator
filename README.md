@@ -16,6 +16,8 @@ For the drawing I use a tiny JS library of myself called [Canvaz](https://github
 
 [Implementation of Kruskal's algorithm to find the minimum spanning tree of a graph](https://github.com/abetusk/kruskal.js) by [abetusk](https://github.com/abetusk).
 
+[Javascript finite state machine library](https://github.com/jakesgordon/javascript-state-machine) by [jakesgordon](https://github.com/jakesgordon)
+
 # How to use
 
 Start a webserver of tour choice in the root folder and watch the magic.

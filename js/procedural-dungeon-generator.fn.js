@@ -230,7 +230,9 @@ pDG.fn.getRandomPointInEllipse = function( cx, cy, ellipse_w, ellipse_h, grid_si
   return [ _x, _y ];
 }
 
-
+/**
+ * Receives an unidimmensional list of triangles, returns a list of edges
+ */
 pDG.fn.getEdgesFromTriangles = function( triangles ) {
   var edges = [];
   for( i = triangles.length; i; ) {
@@ -386,3 +388,8 @@ pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms, color_str ) {
   canvaz_obj.ctx.stroke();
 }
 
+// Approximately gaussian random numbers between 0 and 1
+// http://jsfiddle.net/Guffa/tvt5K/
+function fastGaussianRand() {
+  return ( (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() ) - 3 ) / 3;
+}
