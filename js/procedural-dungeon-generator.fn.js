@@ -248,6 +248,20 @@ pDG.fn.getEdgesFromTriangles = function( triangles ) {
   return edges;
 };
 
+
+
+pDG.fn.compareArray = function( item1, list ) {
+  for (var i = 0; i < list.length; i++) {
+    var item2 = list[i];
+    if ( JSON.stringify( item1 ) === JSON.stringify( item2 ) ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
 /*
   // ----------------------------------
   Draw helpers... functions... whatever
@@ -352,8 +366,11 @@ pDG.fn.draw.triangles = function ( canvaz_obj, triangles, rooms ) {
 /**
  * Draws delauny triangles
  */
-pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms ) {
-  canvaz_obj.sS = '#ff0';
+pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms, color_str ) {
+  if ( typeof color_str === 'undefined' ) {
+    var color_str = '#ff0';
+  }
+  canvaz_obj.sS = color_str;
   canvaz_obj.lW = '2';
 
   canvaz_obj.ctx.beginPath();
@@ -368,3 +385,4 @@ pDG.fn.draw.edges = function ( canvaz_obj, edges, rooms ) {
   canvaz_obj.ctx.closePath();
   canvaz_obj.ctx.stroke();
 }
+
