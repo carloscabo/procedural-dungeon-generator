@@ -5,6 +5,10 @@
         "es6": true,
         "node": true
     },
+    "globals": {
+        "pDG": true,
+        "fSM": true
+    },
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true

@@ -14,11 +14,13 @@ var gV = {
   // Areas over the average by this factor
   // Define the main rooms of the dungeos
   average_area_factor: 1.35
-},
-rooms = [],
-selected_rooms = [], // Area over average, main nodes of the dungeon
-selected_rooms_centers = [],
-cz1;
+};
+
+pDG.rooms = [];
+pDG.selected_rooms = []; // Area over average, main nodes of the dungeon
+pDG.selected_rooms_centers = [];
+
+var cz1; // Canvas
 
 $(document).ready(function() {
 
@@ -41,18 +43,42 @@ $(document).ready(function() {
     cz1.fS = '#f00';
     cz1.ctx.translate(cz1.w / 2, cz1.h / 2);
 
-    rooms = pDG.fn.createRooms( gV.room_number, gV.grid );
+    pDG.rooms = pDG.fn.createRooms( gV.room_number, gV.grid );
 
     // Caculate the average area of all rooms
-    gV.average_area = pDG.fn.getAverageArea( rooms );
+    gV.average_area = pDG.fn.getAverageArea( pDG.rooms );
 
-    // Create a seconds set of rooms including onthe those with an area over the average.
-    for (var i = 0, len = rooms.length; i < len; i++) {
-      var room = rooms[i];
+    // Get rooms over an area
+    pDG.selected_rooms = pDG.rooms.filter( function( room ) {
       if ( room.area > gV.average_area * gV.average_area_factor ) {
-        selected_rooms.push( room );
+        return room;
+      }
+    });
+
+    // spaceRooms return true while rooms overlap
+    while ( pDG.fn.spaceRooms( pDG.rooms, gV.grid ) ) {
+      console.log( 'Spacing rooms' );
+    }
+
+    pDG.centers = pDG.fn.getCenters( pDG.selected_rooms ),
+    pDG.triangles = Delaunay.triangulate( pDG.centers ),
+    pDG.edges = pDG.fn.getEdgesFromTriangles( pDG.triangles ),
+    pDG.min_span_tree = Kruskal.kruskal( pDG.centers, pDG.edges, pDG.fn.dist );
+
+    var
+      k = 0,
+      edge_count = 3;
+    pDG.extra_edges = [];
+    while ( k < edge_count ) {
+      var
+        edge = pDG.edges[ Math.floor( Math.random() * pDG.edges.length ) ];
+      if ( !pDG.fn.compareArray( edge, pDG.min_span_tree ) ) {
+        pDG.extra_edges.push( edge );
+        k++;
       }
     }
+
+
   };
 
   // ----------------------------------
@@ -62,59 +88,26 @@ $(document).ready(function() {
     cz1.clear();
   };
 
-
-  var overlapping = true;
+  // ----------------------------------
+  // ----------------------------------
+  // ----------------------------------
   cz1.draw = function() {
 
     pDG.fn.draw.grid( cz1, gV.grid );
 
     pDG.fn.draw.allRooms(
       cz1,
-      rooms,
+      pDG.rooms,
       gV.grid,
       gV.average_area,
       gV.average_area_factor
     );
 
-    if ( overlapping ) {
-      overlapping = pDG.fn.spaceRooms( rooms, gV.grid );
-      // console.log( 'overlapping!' ); // DEBUG
-    } else {
-      var
-        centers = pDG.fn.getCenters( selected_rooms ),
-        triangles = Delaunay.triangulate( centers ),
-        edges = pDG.fn.getEdgesFromTriangles( triangles ),
-        min_span_tree = Kruskal.kruskal( centers, edges, pDG.fn.dist );
+    pDG.fn.draw.triangles( cz1, pDG.triangles, pDG.selected_rooms );
+    // pDG.fn.draw.edges( cz1, edges, selected_rooms );
+    pDG.fn.draw.edges( cz1, pDG.min_span_tree, pDG.selected_rooms );
 
-        // Draw
-        pDG.fn.draw.triangles( cz1, triangles, selected_rooms );
-        // pDG.fn.draw.edges( cz1, edges, selected_rooms );
-        pDG.fn.draw.edges( cz1, min_span_tree, selected_rooms );
-
-        // Log / debug
-        // console.log( centers );
-        // console.log( triangles );
-        // console.log( triangles );
-        // console.log( edges );
-        // console.log( min_span_tree );
-        // debugger;
-
-        var
-          k = 0,
-          extra_edges = [];
-        while ( k < 3 ) {
-          var
-            edge = edges[Math.floor(Math.random()*edges.length)];
-          if ( !pDG.fn.compareArray( edge, min_span_tree ) ) {
-            extra_edges.push( edge );
-            k++;
-          }
-        }
-
-        pDG.fn.draw.edges( cz1, extra_edges, selected_rooms, '#53dfcb' );
-
-        throw new Error('pDG: Custom error msg!');
-    }
+    pDG.fn.draw.edges( cz1, pDG.extra_edges, pDG.selected_rooms, '#53dfcb' );
 
     pDG.fn.draw.axis( cz1 );
 

@@ -3,7 +3,6 @@ var pDG = pDG || {};
 
 'use strict';
 
-// Child FSM
 pDG.fSM = new StateMachine({
 
   init: 'uninitilaized',
@@ -12,33 +11,33 @@ pDG.fSM = new StateMachine({
     {
       name: 'createRooms',   // Action
       from: 'uninitilaized',
-      to:   'room-creation'
+      to:   'rooms-created'
     },
     {
       name: 'calculateAverage',
-      from: 'room-creation',
-      to:   'average-area-calculation'
+      from: 'rooms-created',
+      to:   'average-area-calculated'
     },
     {
       name: 'pickMainRooms',
-      from: 'average-area-calculation',
-      to:   'picking-main-rooms'
+      from: 'average-area-calculated',
+      to:   'main-rooms-picked'
     },
     {
-      name: 'spaceRooms',
+      name: 'spacingRooms',
       from: '*',
       to:   'spacing-rooms'
     }
   ],
+
+  /*
   methods: {
     onCreateRooms: function() {
-      var _w = window;
-      _w.rooms = _w.pDG.fn.createRooms( _w.gV.room_number, _w.gV.grid );
+
     },
     onCalculateAverage: function() {
-      console.log('I froze')
+
     },
-    onVaporize: function() { console.log('I vaporized') },
-    onCondense: function() { console.log('I condensed') }
-  }
+  }*/
 });
+
