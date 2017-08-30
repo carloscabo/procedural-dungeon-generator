@@ -42,8 +42,6 @@ $(document).ready(function() {
     cz1.ctx.translate(cz1.w / 2, cz1.h / 2);
 
     rooms = pDG.fn.createRooms( gV.room_number, gV.grid );
-    // console.log( 'ALL ROOMS:' )
-    // console.log( rooms );
 
     // Caculate the average area of all rooms
     gV.average_area = pDG.fn.getAverageArea( rooms );
@@ -115,7 +113,7 @@ $(document).ready(function() {
 
         pDG.fn.draw.edges( cz1, extra_edges, selected_rooms, '#53dfcb' );
 
-        throw new Error("Something went badly wrong!");
+        throw new Error('pDG: Custom error msg!');
     }
 
     pDG.fn.draw.axis( cz1 );
