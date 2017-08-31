@@ -2,9 +2,9 @@
 var gV = {
   radius: 512/ 2,
 
-  room_number: 100,
+  room_number: 30,
 
-  grid: 10, // Pixels
+  grid: 12, // Pixels
 
   x: 0,
   y: 0,
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
     var
       k = 0,
-      edge_count = 3;
+      edge_count = 1;
     pDG.extra_edges = [];
     while ( k < edge_count ) {
       var
