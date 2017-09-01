@@ -104,12 +104,15 @@ $(document).ready(function() {
     );
 
     pDG.fn.draw.triangles( cz1, pDG.triangles, pDG.selected_rooms );
-    // pDG.fn.draw.edges( cz1, edges, selected_rooms );
+
     pDG.fn.draw.edges( cz1, pDG.min_span_tree, pDG.selected_rooms );
 
     pDG.fn.draw.edges( cz1, pDG.extra_edges, pDG.selected_rooms, '#53dfcb' );
 
     pDG.fn.draw.axis( cz1 );
+
+
+
 
   };
 

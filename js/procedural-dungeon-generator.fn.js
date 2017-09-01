@@ -160,20 +160,20 @@ pDG.fn.spaceRooms = function ( rooms, grid_size ) {
 */
 pDG.fn.roomsAreOverlapping = function ( r1, r2, grid_size ) {
   var
-  r2_l = r2.x,
-  r2_r = r2.x + r2.w * grid_size,
-  r2_t = r2.y,
-  r2_b = r2.y + r2.h * grid_size,
-  r1_l = r1.x,
-  r1_r = r1.x + r1.w * grid_size,
-  r1_t = r1.y,
-  r1_b = r1.y + r1.h * grid_size;
+    r2_l = r2.x,
+    r2_r = r2.x + r2.w * grid_size,
+    r2_t = r2.y,
+    r2_b = r2.y + r2.h * grid_size,
+    r1_l = r1.x,
+    r1_r = r1.x + r1.w * grid_size,
+    r1_t = r1.y,
+    r1_b = r1.y + r1.h * grid_size;
 
-
-  var x1 = Math.max( r1_l, r2_l );
-  var x2 = Math.min( r1_r, r2_r );
-  var y1 = Math.max( r1_t, r2_t );
-  var y2 = Math.min( r1_b, r2_b );
+  var
+    x1 = Math.max( r1_l, r2_l ),
+    x2 = Math.min( r1_r, r2_r ),
+    y1 = Math.max( r1_t, r2_t ),
+    y2 = Math.min( r1_b, r2_b );
   return x1 < x2 && y1 < y2;
 
 /* return !(r2_l > r1_r ||
@@ -250,8 +250,6 @@ pDG.fn.getEdgesFromTriangles = function( triangles ) {
   return edges;
 };
 
-
-
 pDG.fn.compareArray = function( item1, list ) {
   for (var i = 0; i < list.length; i++) {
     var item2 = list[i];
@@ -260,6 +258,38 @@ pDG.fn.compareArray = function( item1, list ) {
     }
   }
   return false;
+}
+
+pDG.fn.areContigous = function( r1, r2 ) {
+
+  var directions = [ [ 0, -1 ], [ 1, 0 ], [ 0, 1 ], [ -1, 0 ] ];
+  directions.forEach( function ( dir ) {
+    console.log( dir );
+  }, this );
+
+}
+
+
+// Returns true if r1 is adjacent to r2
+// Asumes width and coordinates are integers!
+pDG.fn.areAdjacent = function ( r1, r2, grid_size ) {
+  var
+    r2_l = r2.x,
+    r2_r = r2.x + r2.w * grid_size,
+    r2_t = r2.y,
+    r2_b = r2.y + r2.h * grid_size,
+    r1_l = r1.x,
+    r1_r = r1.x + r1.w * grid_size,
+    r1_t = r1.y,
+    r1_b = r1.y + r1.h * grid_size;
+
+  if ( r1_r !== r2_l && r2_r !== r1_l ) {
+    return false;
+  }
+  if ( r1_t !== r2_b && r2_t !== r1_b ) {
+    return false;
+  }
+  return true;
 }
 
 
